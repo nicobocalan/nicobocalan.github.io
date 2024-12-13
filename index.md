@@ -17,10 +17,19 @@ layout: default
             Python, Bash, cURL, Git, Markdown, PHP, End-user Documentation, 
             Video-editing, Camtasia, Audacity, Madcap Flare</p>
           <h2>Past Experience</h2>
-          <p>Developer Technical Writer - Square</p>
-          <p>Technical Writer - Satmetrix</p>
+          <ul>
+          <li>Developer Technical Writer - Square</li>
+          <li>Technical Writer - Satmetrix</li>
+          </ul>
         </div>
-      </div>
+      </div><!--/row -->
       <div class="row justify-content-md-center">
-      </div>
+        <div class="col-sm">
+          <h2>Writing Samples</h2>
+          <p>Anonymized writing samples from my past work experience. 
+          For both developer and end user audiences.</p>
+           <a type="button" class="btn btn-outline-dark" href="/portfolio.html">Read</a>
+        </div>
+      </div><!--/row -->
+
     </div>
