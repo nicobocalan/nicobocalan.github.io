@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:4000/../assets/main.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Neonderthaw&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <title>API Reference - </title>
+
+          <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Nico - Technical Writer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/index.html">About <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/portfolio.html">Writing Samples</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  </head>
+  <body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <br>
+              <a type="button" class="btn btn-outline-dark" href="/portfolio.html"><< Back</a>
+              <br>
+
+              <h1 id="processing-recurring-payments-via-card-on-file">Processing Recurring Payments via Card on File</h1>
+
+<p>This is similar to charging a card once, except that you take the extra step of creating a customer:</p>
+
+<ol>
+  <li>Create a customer</li>
+  <li>Add a card to the customer</li>
+  <li>Charge the customer</li>
+  <li>Repeat!</li>
+</ol>
+
+<p>Follow these steps to set up recurring payments on your website with Square. </p>
+
+<p>In order to process recurring payments via the Connect API, you will need to use the <a href="#">CreateCustomer</a> and <a href="#">CreateCustomerCard</a> endpoints.</p>
+
+<p>This document includes code samples inline with the text. At the end of the article, all of the code is placed together in one block so that it’s more convenient to copy and paste. </p>
+
+<h3 id="make-a-square-account">Make a Square Account</h3>
+
+<p>To start, you will need a Square account. Square developer accounts are the same as Square merchant accounts. If you already have a Square account, you’re all set.</p>
+
+<p>If you <em>don’t</em> already have a Square account, <a href="#">create one</a> to start using the API.</p>
+
+<p><strong>Important:</strong> We’re going to start by using the sandbox API. However, if you plan to use Square APIs to process card payments, visit <a href="#">squareup.com/activate</a> after you create your account to ensure your account is enabled for payment processing. Otherwise, if you use a non-sandbox API that requires payments activation, you may get error responses that you must activate.</p>
+
+<h2 id="step-1-register-an-application-with-square">Step 1: Register an application with Square. </h2>
+
+<p>Now that you have a Square account, visit <a href="https://connect.squareup.com/apps">https://connect.squareup.com/apps</a> and sign in.</p>
+
+<p>This is your application dashboard. It’s where you register new applications, change your application settings, and find all of your application credentials.</p>
+
+<p>To register your first application:</p>
+
+<ol>
+  <li>
+    <p>Click New Application.</p>
+  </li>
+  <li>
+    <p>Enter a name for your application and click Create App. (Note that your application name can’t include the word Square.)</p>
+  </li>
+</ol>
+
+<p>As soon as your application is created, the control panel for it appears. The control panel consists of four tabs (Credentials, OAuth, Webhooks, and Point of Sale API), each with multiple sections.</p>
+
+<h2 id="step-2-learn-about-application-credentials">Step 2: Learn about application credentials</h2>
+
+<p>The Credentials and OAuth tabs of your application’s control panel include a lot of different credentials that can be tricky to keep straight. Here’s a quick rundown:</p>
+
+<h3 id="personal-access-token">Personal Access Token</h3>
+
+<p>This is found in the Credentials tab of the control panel.</p>
+
+<p>This special token gives you full API access to your <em>own</em> Square account. When you send HTTPS requests to Square API endpoints, you include this value in a header to identify yourself.</p>
+
+<p>If you’re building an application just for yourself, this is the only access token you’ll ever need to use.</p>
+
+<h3 id="application-id">Application ID</h3>
+
+<p>This is found in the Credentials tab of the control panel.</p>
+
+<p>This is your application’s unique ID. It’s used in a couple places:</p>
+
+<ul>
+  <li>
+    <p>If you’re building an application that <em>other</em> merchants will use, you’ll specify this value during the OAuth flow (discussed later).</p>
+  </li>
+  <li>
+    <p>If you’re using the e-commerce API, you’ll provide this value when you embed the secure payment form on your website.</p>
+  </li>
+</ul>
+
+<h3 id="sandbox-application-id-and-access-token">Sandbox Application ID and Access Token</h3>
+
+<p>This is found in the Credentials tab of the control panel.</p>
+
+<p>The e-commerce API provides a sandbox that lets you try out processing credit card payments without actually moving any money.</p>
+
+<p>To process e-commerce payments in sandbox mode, you provide these credentials anywhere you would typically provide your standard Application ID and Personal Access Token.</p>
+
+<h2 id="step-3-install-the-square_connect-gem">Step 3. Install the square_connect gem</h2>
+
+<p>You can install the square_connect by typing in your Terminal</p>
+
+<p>gem install square_connect</p>
+
+<h2><strong>**</strong>**</h2>
+
+<h2 id="step-4-retrieve-your-location-ids">Step 4. Retrieve your location IDs</h2>
+
+<p>Every Square merchant’s business consists of one or more locations, as described <a href="#">here</a>. In order to process a payment with Connect v2, you need to specify which location is taking the payment. </p>
+
+<p>In order to process credit cards, you want a location with CREDIT_CARD_PROCESSING enabled. <strong>Here’s how to make sure</strong>.</p>
+
+<p>The square_connect library has an easy method for obtaining a business’ location IDs: the list_locations method.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    require 'square_connect'
+
+    access_token = 'REPLACE_WITH_YOUR_ACCESS_TOKEN'
+
+    SquareConnect.configure do |config|
+    config.access_token = access_token
+    end
+
+    locations_api = SquareConnect::LocationsApi.new
+
+    begin
+    locations_response = locations_api.list_locations
+    puts locations_response
+    rescue SquareConnect::ApiError =&gt; e
+    raise "Error encountered while listing locations: #{e.message}"
+    end
+
+    # Get a location able to process transaction
+    location = locations_response.locations.detect do |l|
+    l.capabilities.include?("CREDIT_CARD_PROCESSING")
+    end
+
+    if location.nil?
+    raise "Activation required.
+    Visit https://squareup.com/activate to activate and begin taking payments."
+    end
+
+    puts location
+</code></pre></div></div>
+
+<h2 id="step-5-create-a-customer">Step 5. Create a Customer</h2>
+
+<p><strong>Important:</strong> If your application uses customer contact information, be sure to use that information judiciously. <strong>Abuse of customer contact information may result in your application being disabled without notice.</strong></p>
+
+<p>You can save a new customer for a business with the <a href="#">CreateCustomer</a> endpoint. A valid <a href="#">Customer </a>object must have at least one of the following:</p>
+
+<ul>
+  <li>Name (first and/or last)</li>
+  <li>Email address</li>
+  <li>Phone number</li>
+  <li>Company name</li>
+</ul>
+
+<p>You can also save the following optional information:</p>
+
+<ul>
+  <li>Physical address</li>
+  <li>An informational note about the customer</li>
+  <li>A reference ID to associate the customer with an entity in your own system</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require 'square_connect'
+require 'securerandom'
+
+access_token = 'REPLACE_WITH_YOUR_ACCESS_TOKEN'
+customer_api = SquareConnect::CustomersApi.new
+reference_id = SecureRandom.uuid
+
+customer_request = {
+  given_name: 'Amelia',
+  family_name: 'Earhart',
+  email_address: 'Amelia.Earhart@example.com',
+  address: {
+    address_line_1: '500 Electric Ave',
+    address_line_2: 'Suite 600',
+    locality: 'New York',
+    administrative_district_level_1: 'NY',
+    postal_code: '10003',
+    country: 'US'
+  },
+  phone_number: '1-555-555-0122',
+  reference_id: reference_id,
+  note: 'a customer'
+}
+
+begin
+  customer_response = customer_api.create_customer(access_token, customer_request)
+  puts 'Customer ID to use with CreateCustomerCard:'
+  puts customer_response
+rescue SquareConnect::ApiError =&gt; e
+  raise "Error encountered while creating customer: #{e.message}"
+end
+
+customer = customer_response.customer
+</code></pre></div></div>
+
+<h2 id="step-6-create-a-customercard">Step 6. Create a CustomerCard</h2>
+
+<p>Once you have created a customer, you need to create a card nonce using the customer’s card information, then add it as a card on file. </p>
+
+<p>Use the SqPaymentForm to generate a card nonce and provide that card nonce to the<a href="#">CreateCustomerCard</a> endpoint. Copy and paste the SqPaymentForm in your site. When your visitor submits their card information, the SqPaymentForm will generate the card nonce and submit it to your server.</p>
+
+<p>Copy and paste the following Javascript code into your site files. If you haven’t built your site yet, you can also download a barebones index.html file <strong>here</strong>. </p>
+
+<p><strong>Important:</strong> You need the customer’s express permission to link their card to their information. For example, you can include a checkbox in your purchase flow (unchecked by default) that the customer can check to specify that they wish to save their card information for future purchases. <strong>Linking cards on file without obtaining customer permission may result in your application being disabled without notice.</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require 'square_connect'
+
+access_token = 'REPLACE_WITH_YOUR_ACCESS_TOKEN'
+
+customer_card_api = SquareConnect::CustomerCardApi.new
+customer_card_request = {
+  card_nonce: CARD_NONCE,
+  billing_address: {
+    address_line_1: '1455 Market St',
+    address_line_2: 'Suite 600',
+    locality: 'San Francisco',
+    administrative_district_level_1: 'CA',
+    postal_code: '94103',
+    country: 'US'
+  },
+  cardholder_name: 'Amelia Earhart'
+}
+
+begin
+  customer_card_response = customer_card_api.create_customer_card(access_token, customer.id, customer_card_request)
+  puts 'CustomerCard ID to use with Charge:'
+  puts customer_card_response.customer_card.id
+rescue SquareConnect::ApiError =&gt; e
+  raise "Error encountered while creating customer card: #{e.message}"
+end
+
+customer_card = customer_card_response.customer_card
+
+
+</code></pre></div></div>
+
+<h2 id="step-7-charge-the-customercard">Step 7. Charge the CustomerCard</h2>
+
+<p>Now that you’ve generated a card nonce with the SqPaymentForm and you have a way to retrieve a business’ location IDs, you can charge a customer’s card on file. </p>
+
+<p><strong>Important:</strong> Card nonces expire after 24 hours. The CreateCustomerCard endpoint will return an error if you attempt to charge an expired nonce or a nonce that has already been used to charge a card.</p>
+
+<p>You charge a card on file like so:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require 'square_connect'
+require 'securerandom'
+
+# Assume you have correct values assigned to the following variables:
+#   location
+#   customer
+#   customer_card
+# See the above code samples for how to obtain them.
+
+access_token = 'REPLACE_WITH_YOUR_ACCESS_TOKEN'
+
+transaction_api = SquareConnect::TransactionApi.new
+
+# Every payment you process for a given business hae a unique idempotency key.
+# If you're unsure whether a particular payment succeeded, you can reattempt
+# it with the same idempotency key without worrying about double charging
+# the buyer.
+
+idempotency_key = SecureRandom.uuid
+
+
+# Monetary amounts are specified in the smallest unit of the applicable currency.
+# This amount is in cents. It's also hard-coded for $1, which is not very useful.
+
+amount_money = { :amount =&gt; 100, :currency =&gt; 'USD' }
+
+transaction_request = {
+  :customer_id =&gt; customer.id,
+  :customer_card_id =&gt; customer_card.id,
+  :amount_money =&gt; amount_money,
+  :idempotency_key =&gt; idempotency_key
+}
+
+# The SDK throws an exception if a Connect endpoint responds with anything besides 200 (success).
+# This block catches any exceptions that occur from the request.
+begin
+  transaction_response = transaction_api.charge(access_token, location.id, transaction_request)
+rescue SquareConnect::ApiError =&gt; e
+  raise "Error encountered while charging card: #{e.message}"
+End
+
+puts transaction_response
+
+</code></pre></div></div>
+
+<p>The value of transaction_response is a <a href="#">hash</a> that contains all of the details of the processed transaction. In the United States, Square also takes care of automatically updating any cards on file that might have expired since you first attached them to a customer.</p>
+
+<h2 id="step-8-repeat">Step 8. Repeat!</h2>
+
+<p>Once you have a card attached to a customer, you can use the customer information to make the charge. Next time you need to make the charge, use the customer_id and <code class="language-plaintext highlighter-rouge">customer_card_id</code> instead of the card nonce. </p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    api = squareconnect.apis.transactions_api.TransactionsApi()
+    idempotency_key = str(uuid.uuid1())
+    api.charge(LOCATION_ID, ChargeRequest(
+      idempotency_key=idempotency_key,
+      amount_money=Money(150, 'USD'),
+      customer_id=customer_id,
+
+      customer _card_id=customer_card_id,
+      shipping_address=Address(
+        address_line_1='123 Main St',
+        locality='San Francisco',
+        administrative_district_level_1='CA',
+        postal_code='94114',
+        country='US'
+      ),
+      billing_address=Address(
+        address_line_1='500 Electric Ave',
+        address_line_2='Suite 600',
+        administrative_district_level_1='NY',
+        locality='New York',
+        postal_code='20003',
+        country='US'
+      ),
+      reference_id='optional reference #112358',
+      note='optional note'
+    ))
+</code></pre></div></div>
+
+<h2 id="try-it-out">Try it out</h2>
+
+<p>A full sample that uses the SqPaymentForm and Rails is available on <a href="#">Github</a>. See the sample’s README for information on running the sample. </p>
+
+<p>If you want to test out charging cards without actually moving any money, you can configure the sample to communicate with Connect v2 sandbox endpoints. For more information, see <a href="#">Using the API sandbox</a>.</p>
+
+<h2 id="full-code">Full code</h2>
+
+<p>Below you can find all the code samples above in one copy and paste snippet, so that the only variables you need to replace are the access_token and the card_nonce.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require 'square_connect'
+require 'securerandom'
+
+access_token = 'REPLACE_WITH_YOUR_ACCESS_TOKEN'
+card_nonce = 'CARD_NONCE_FROM_PAYMENT_FORM'
+
+SquareConnect.configure do |config|
+  config.access_token = access_token
+end
+
+locations_api = SquareConnect::LocationsApi.new
+
+begin
+  locations_response = locations_api.list_locations
+  puts locations_response
+rescue SquareConnect::ApiError =&gt; e
+  raise "Error encountered while listing locations: #{e.message}"
+end
+
+# Get a location able to process transaction
+location = locations_response.locations.find do |l|
+  l.capabilities.include?("CREDIT_CARD_PROCESSING")
+end
+
+if location.nil?
+  raise "Activation required.
+  Visit https://squareup.com/activate to activate and begin taking payments."
+end
+
+puts location
+
+customer_api = SquareConnect::CustomersApi.new
+reference_id = SecureRandom.uuid
+
+customer_request = {
+  given_name: 'Amelia',
+  family_name: 'Earhart',
+  email_address: 'Amelia.Earhart@example.com',
+  address: {
+    address_line_1: '500 Electric Ave',
+    address_line_2: 'Suite 600',
+    locality: 'New York',
+    administrative_district_level_1: 'NY',
+    postal_code: '10003',
+    country: 'US'
+  },
+  phone_number: '1-555-555-0122',
+  reference_id: reference_id,
+  note: 'a customer'
+}
+
+begin
+  customer_response = customer_api.create_customer(customer_request)
+  puts 'Customer ID to use with CreateCustomerCard:'
+  puts customer_response.customer.id
+rescue SquareConnect::ApiError =&gt; e
+  raise "Error encountered while creating customer: #{e.message}"
+end
+
+customer = customer_response.customer
+
+customer_card_request = {
+  card_nonce: card_nonce,
+  billing_address: customer.address.to_hash,
+  cardholder_name: 'Amelia Earhart'
+}
+
+begin
+  customer_card_response = customer_api.create_customer_card(customer.id, customer_card_request)
+  puts 'CustomerCard ID to use with Charge:'
+  puts customer_card_response.card.id
+rescue SquareConnect::ApiError =&gt; e
+  raise "Error encountered while creating customer card: #{e.message}"
+end
+
+customer_card = customer_card_response.card
+
+transactions_api = SquareConnect::TransactionsApi.new
+idempotency_key = SecureRandom.uuid
+amount_money = { :amount =&gt; 100, :currency =&gt; 'USD' }
+
+transaction_request = {
+  :customer_id =&gt; customer.id,
+  :customer_card_id =&gt; customer_card.id,
+  :amount_money =&gt; amount_money,
+  :idempotency_key =&gt; idempotency_key
+}
+
+begin
+  transaction_response = transactions_api.charge(location.id, transaction_request)
+rescue SquareConnect::ApiError =&gt; e
+  raise "Error encountered while charging card: #{e.message}"
+end
+
+puts transaction_response
+
+</code></pre></div></div>
+
+<h2 id="next-steps">Next steps</h2>
+
+<ul>
+  <li><strong>Learn how to set up subscription payments</strong></li>
+  <li><strong>Learn how to set up delayed capture transactions.</strong> </li>
+  <li><strong>Learn about using the sandbox to test your APIs.</strong></li>
+  <li><strong>Check out the full API reference</strong></li>
+</ul>
+
+<p>Was this page helpful?</p>
+
+<h3 id="still-havent-found-what-you-are-looking-for"><strong>Still haven’t found what you are looking for?</strong></h3>
+
+<p>Ask for help on <a href="#">Stack Overflow </a>or join our <a href="#">Slack channel</a>.</p>
+
+
+            </div>
+          </div>
+        </div><!-- /CONTAINER-->
+    
+    
+        </div>
+
+
+  </body>
+</html>
+

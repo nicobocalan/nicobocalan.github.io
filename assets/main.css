@@ -1,0 +1,92 @@
+/* Overriding styles for this site. */
+
+/* MAIN STYLES */
+
+body {
+    background-color: #f6ddcc;
+    color:  #34495e;
+
+  }
+
+.container {
+  max-width: 960px;
+  padding-top: 30px;
+}
+
+
+
+.title {
+  font-family: "Neonderthaw", cursive;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 100px;
+}
+
+h1 {
+  font-family: "Libre Caslon Display", serif;
+  font-weight: 400;
+  font-size: 75px;
+  font-style: normal;
+  padding-top: 20px;
+}
+
+h2 {
+  font-family: "Libre Caslon Display", serif;
+  font-weight: 400;
+  font-style: normal;
+  padding-top: 20px;
+}
+
+h3 {
+  font-family: "Libre Caslon Display", serif;
+  font-weight: 400;
+  font-style: italic;
+  padding-top: 20px;
+}
+
+hr.dotted {
+    padding-top: 20px;
+  border-top: 3px dotted #34495e;
+  
+}
+
+
+.btn-primary {
+  color: #f6ddcc;
+  background-color: #34495e;
+  border-color: #34495e;
+}
+
+
+/*-- Navbar Styles --*/
+.bg-dark {
+  color: #34495e;
+}
+
+.navbar-dark .navbar-brand {
+  color: #f6ddcc;
+}
+
+/*--Card Styles--*/
+.card {
+  border-color: #34495e;
+  background-color: transparent;
+}
+
+.card-link {
+  color: #34495e;
+  font-family: "Neonderthaw", cursive;
+  font-size: 75px;
+  line-height: 1;
+}
+
+.writing-sample-desc {
+  max-width: 700px;
+  padding-bottom: 50px;
+}
+
+
+/*-- --*/ 
+.highlighter-rouge .highlight {
+  background: white;
+}

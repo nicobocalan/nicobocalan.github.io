@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:4000/../assets/main.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Neonderthaw&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <title>API Reference - </title>
+
+          <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Nico - Technical Writer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/index.html">About <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/portfolio.html">Writing Samples</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  </head>
+  <body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <br>
+              <a type="button" class="btn btn-outline-dark" href="/portfolio.html"><< Back</a>
+              <br>
+
+              <h1 id="frontend-and-backend-development">Frontend and Backend Development</h1>
+
+<p>A typical application has a frontend (client component) and a backend (server component).</p>
+
+<ul>
+  <li>
+    <p>The frontend refers to the user interface that receives user input. It is built using technologies such as HTML, CSS, and JavaScript for web applications and Objective-C, Swift, Java, or Kotlin for iOS and Android applications.</p>
+  </li>
+  <li>
+    <p>The backend works behind the scenes. It receives user input, pulls the necessary data, and sends the data back to the frontend.</p>
+  </li>
+</ul>
+
+<p>Square provides API libraries that developers embed when developing an application frontend and backend.</p>
+
+<h3 id="frontend"><strong>Frontend</strong></h3>
+
+<p>Developers design and construct the user experience on the web page or a mobile application using buttons, menus, links, graphics, and other elements.</p>
+
+<p>A typical payment-processing application flow starts with a buyer providing payment information in the frontend UI (for example, providing card data in UI text boxes). Square provides client-side libraries to process payments. These libraries typically provide UI elements to embed in the application frontend for collecting payment information.</p>
+
+<p>Square supports payment processing across multiple channels, including online, in-app, and in-person (see<a href="https://developer.squareup.com/docs/payments"> Payments).</a> Square provides client-side libraries for these scenarios.</p>
+
+<p>Some of these client-side libraries must be used in conjunction with the server-side<a href="https://developer.squareup.com/reference/square"> Square API</a>. These include:</p>
+
+<ul>
+  <li>
+    <p><a href="https://developer.squareup.com/docs/payments#online-payments">Online payment</a> processing. Developers can use the Square Web Payments SDK to process payments in web applications. This SDK generates a payment token from the payment information that users provide. Developers must implement a backend that calls the Square Payments API to process payments using payment tokens as the payment source. For an example application, see<a href="https://github.com/square/connect-api-examples/tree/master/connect-examples/v2/node_payment"> Payment Processing example</a> on GitHub.</p>
+  </li>
+  <li>
+    <p><a href="https://developer.squareup.com/docs/payments#in-app-payments">In-app payment</a> processing. This refers to seller-created mobile applications that buyers install on their Android or iOS devices. These applications embed the Square In-App Payments SDK in the frontend development. This SDK generates a secure payment token. The application must provide a server (backend) that calls the Payments API to take the payment. For an example application, see<a href="https://developer.squareup.com/docs/in-app-payments-sdk/quick-start/start"> In-App Payments SDK: Quickstart.</a><br />
+Square also provides open source plugins,<a href="https://github.com/square/in-app-payments-flutter-plugin"> Flutter plugin</a> and<a href="https://github.com/square/in-app-payments-react-native-plugin"> React Native plugin</a>, for Square In-App Payment SDK.</p>
+  </li>
+</ul>
+
+<p>Square also provides client-side libraries to process<a href="https://developer.squareup.com/docs/payments#in-person-payments"> in-person payments.</a> Because these libraries process payments end to end, your application backend does not need to explicitly call the Square Payments API to process payments. These include the:</p>
+
+<ul>
+  <li>
+    <p><strong>Reader SDK.</strong> A developer embeds the Reader SDK in their mobile application frontend to process payments. In this case, the application uses the Reader SDK connected to their mobile device to process payments. Note that the Reader SDK is available only in the United States. For an example, see<a href="https://developer.squareup.com/docs/reader-sdk/quick-start/start"> Reader SDK: Quickstart.</a><br />
+Square also provides the open source plugins,<a href="https://github.com/square/reader-sdk-flutter-plugin"> Flutter plugin</a> and<a href="https://github.com/square/react-native-square-reader-sdk"> React Native plugin</a>, for Square Reader SDK.</p>
+  </li>
+  <li>
+    <p><strong>Point of Sale API.</strong> To process in-person payments using Square hardware, developers can embed the Point of Sale API in their mobile application. The API simply acts like an application switcher. When time comes to process a payment, the API switches seamlessly to the Square Point of Sale application and collects the payment with a Square Reader. Applications do not need to make any backend Square API calls. For examples, see<a href="https://developer.squareup.com/docs/pos-api/what-it-does"> Point of Sale API: Overview.</a></p>
+  </li>
+</ul>
+
+<h3 id="backend"><strong>Backend</strong></h3>
+
+<p><a href="https://developer.squareup.com/reference/square">Square APIs</a> (and the corresponding wrapper<a href="https://developer.squareup.com/docs/sdks"> SDKs</a>) integrate with backend development. Your application server sends these API requests to Square and processes responses from Square. For example:</p>
+
+<ul>
+  <li>
+    <p><strong>Bookings API.</strong> Applications can use the Bookings API to allow buyers to manage bookings with a Square seller. The application backend makes the necessary Bookings API calls to create, update, and delete bookings. For an example application, see<a href="https://github.com/square/connect-api-examples/tree/master/connect-examples/v2/node_bookings"> Bookings API example</a> on GitHub.</p>
+  </li>
+  <li>
+    <p><strong>Subscriptions API.</strong> Applications can use the Subscriptions API to offer subscription services to buyers. These applications make calls to Square APIs (such as the Catalog API or Subscriptions API) in their backend code to set up a plan and to create and manage subscriptions. For an example application, see<a href="https://github.com/square/connect-api-examples/tree/master/connect-examples/v2/node_subscription"> Subscriptions API example</a> on GitHub.</p>
+  </li>
+</ul>
+
+<p>Square backend APIs can be used with any programming language. Square supports multiple languages with SDKs and any language can call Square APIs directly.</p>
+
+<h1 id="idempotency">Idempotency</h1>
+
+<p>Learn about idempotency and how idempotency keys prevent unintended results from accidental duplicate requests.</p>
+
+<p><a href="https://developer.squareup.com/docs/build-basics/common-api-patterns/idempotency#what-is-idempotency">What is idempotency?</a></p>
+
+<p><a href="https://developer.squareup.com/docs/build-basics/common-api-patterns/idempotency#additional-square-api-patterns">Additional Square API patterns</a></p>
+
+<p><a href="https://developer.squareup.com/docs/build-basics/common-api-patterns/idempotency#see-also">See also</a></p>
+
+<p><a href="https://developer.squareup.com/docs/build-basics/common-api-patterns/idempotency#what-is-idempotency"></a></p>
+
+<p><a href=""></a></p>
+
+<h2 id="what-is-idempotency">What is idempotency?</h2>
+
+<p>An API call or operation is idempotent if it has the same result no matter how many times it’s applied. That is, an idempotent operation provides protection against accidental duplicate calls causing unintended consequences.</p>
+
+<p>For example, suppose <code class="language-plaintext highlighter-rouge">CreatePayment</code> didn’t require idempotency and you make a successful <code class="language-plaintext highlighter-rouge">CreatePayment</code> request (Square successfully processes the payment). However, your connection fails before you receive success confirmation from Square. You don’t know what happened to your request and therefore you make the request again, charging the customer twice.</p>
+
+<p>Square supports idempotency by allowing API operations to provide an idempotency key (a unique string) to protect against accidental duplicate calls that can have negative consequences.</p>
+
+<p>In the case of the preceding <code class="language-plaintext highlighter-rouge">CreatePayment</code> example:</p>
+
+<ul>
+  <li>
+    <p>If you make the same <code class="language-plaintext highlighter-rouge">CreatePayment</code> request with the same idempotency key again, the endpoint knows it’s a duplicate request. It doesn’t take the payment again. Instead of getting an error, the endpoint returns the response as the first successful <code class="language-plaintext highlighter-rouge">CreatePayment</code> response.</p>
+  </li>
+  <li>
+    <p>If you use the same idempotency key but change the <code class="language-plaintext highlighter-rouge">CreatePayment</code> request (for example, specify a different payment amount), you get an error indicating that you used the idempotency key previously. Note that this behavior might vary depending on the API.</p>
+  </li>
+</ul>
+
+<p>Idempotency keys can be anything, but they need to be unique. Virtually all popular programming languages provide a function for generating unique strings. You should use one of these language calls.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Recommended function</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ruby</td>
+      <td><a href="https://ruby-doc.org/stdlib-2.5.0/libdoc/securerandom/rdoc/Random/Formatter.html#method-i-uuid">SecureRandom.uuid</a></td>
+    </tr>
+    <tr>
+      <td>PHP</td>
+      <td><a href="http://php.net/manual/en/function.uniqid.php">uniqid</a></td>
+    </tr>
+    <tr>
+      <td>Java</td>
+      <td><a href="http://docs.oracle.com/javase/7/docs/api/java/util/UUID.html">UUID.randomUUID</a></td>
+    </tr>
+    <tr>
+      <td>Python</td>
+      <td><a href="https://docs.python.org/3.1/library/uuid.html">uuid</a></td>
+    </tr>
+    <tr>
+      <td>C#</td>
+      <td><a href="https://msdn.microsoft.com/en-us/library/system.guid.newguid\(v=vs.110\).aspx">Guid.NewGuid</a></td>
+    </tr>
+    <tr>
+      <td>Node.js</td>
+      <td><a href="https://nodejs.org/api/crypto.html#cryptorandomuuidoptions">crypto.randomUUID</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><a href="https://developer.squareup.com/docs/build-basics/common-api-patterns/idempotency#additional-square-api-patterns"></a></p>
+
+<p><a href=""></a></p>
+
+<h2 id="additional-square-api-patterns">Additional Square API patterns</h2>
+
+<p>There are other Square API patterns. For more information, see <a href="https://developer.squareup.com/docs/build-basics/common-api-patterns">Common Square API Patterns</a>.</p>
+
+<p><a href="https://developer.squareup.com/docs/build-basics/common-api-patterns/idempotency#see-also"></a></p>
+
+<p><a href=""></a></p>
+
+<h2 id="see-also">See also</h2>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=J9jkEdNo5F8">Video: Sandbox Short - Idempotency</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Hx8UdQx_4bE\&amp;t=67s">Video: The Sandbox - Idempotency</a></li>
+</ul>
+
+<p>   </p>
+
+<h3 id="was-this-page-helpful">Was this page helpful?</h3>
+
+<p> </p>
+
+<p>If you need more assistance, contact <a href="https://squareup.com/help/contact?panel=BF53A9C8EF68">Developer and App Marketplace Support</a> or ask for help in the <a href="https://developer.squareup.com/forums">Developer Forums</a>.</p>
+
+<p>Development</p>
+
+<p> </p>
+
+<ul>
+  <li><a href="https://developer.squareup.com/docs">Guides</a> </li>
+  <li><a href="https://developer.squareup.com/reference/square">API Reference</a> </li>
+</ul>
+
+            </div>
+          </div>
+        </div><!-- /CONTAINER-->
+    
+    
+        </div>
+
+
+  </body>
+</html>
+

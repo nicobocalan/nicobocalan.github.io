@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="http://localhost:4000/../assets/main.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Neonderthaw&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <title>API Reference - </title>
+
+          <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Nico - Technical Writer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/index.html">About <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/portfolio.html">Writing Samples</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  </head>
+  <body>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <br>
+              <a type="button" class="btn btn-outline-dark" href="/portfolio.html"><< Back</a>
+              <br>
+
+              <h1 id="searching-customers-and-responses">Searching Customers and Responses</h1>
+<p>You can use this API to search through your survey invitations and responses.</p>
+
+<h2 id="search-customer-endpoint">Search Customer Endpoint</h2>
+<pre><code class="language-curl">/app/customers/_search
+</code></pre>
+<p>Searches through your feedback and returns up to 50 search results.</p>
+
+<h2 id="search-responses-endpoint">Search Responses Endpoint</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/app/responses/_search
+</code></pre></div></div>
+<p>Searches through your responses and returns up to 50 records at a time.</p>
+
+<h2 id="optional-query-parameters">Optional Query Parameters</h2>
+<p>If you expect more than 50 records, you can optionally add the following parameters to paginate your search results.</p>
+
+<table class="table">
+   <tr>
+      <th>Name</th>
+      <th>Required/Optional</th>
+      <th>Description</th>
+   </tr>
+   <tr>
+      <td>
+         <strong>limit</strong>
+         <br /><em>number</em>
+      </td>
+      <td>
+         Optional
+      </td>
+      <td>
+         The maximum number of records returned per response. This is capped at 100. If you pass a value larger than 100, we will still return only up to 100 records at a time.  If not included, the limit will default to 50 records.
+      </td>
+    </tr>
+    <tr>
+       <td>
+          <strong>offset</strong>
+          <br /><em>number</em>
+       </td>
+       <td>
+          Optional
+       </td>
+       <td>
+          Offset determines which set of records is returned in case of pagination. For example, if you make a request for the first 100 records, you should offset your next request by 100 so you can get responses 100-199 in your next response.  If not included, the offset will default to 0, which denotes the first set of records.
+       </td>
+     </tr>
+</table>
+
+<h4 id="sample-search-customer-endpoint">Sample Search Customer Endpoint</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/app/customers/_search?offset=0&amp;limit=250
+</code></pre></div></div>
+<p>Returns the first 25 records.</p>
+
+<h4 id="search-search-responses-endpoint">Search Search Responses Endpoint</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/app/responses/_search?offset=25&amp;limit=50
+</code></pre></div></div>
+<p>Returns records 26 through 75.</p>
+
+<h2 id="json-fields-array">JSON Fields Array</h2>
+<p>By default, the response data in your search results will include every field that has a value. You can use the fields array to narrow down the fields you want to retrieve.</p>
+
+<p><strong>Note:</strong> All of the responses returned in your search results will have an ID number and a link to that person’s contact page in the app.</p>
+
+<p>All of the responses returned in your search results will have an ID number and a link to that person’s contact page in the app. You can also specify which additional values you want to see for each response by including  a <strong>fields array</strong> in your JSON payload.</p>
+
+<p>A fields array should include the contact fields you want to see for each response. For example, <code class="language-plaintext highlighter-rouge">invitation_sent_date</code>, <code class="language-plaintext highlighter-rouge">email</code>, and <code class="language-plaintext highlighter-rouge">first_name</code>. If you include these in your fields array, each response will return only the values for these fields in addition to the ID number and the contact page link.</p>
+
+<h4 id="curl-sample">cURL Sample</h4>
+<p>This cURL command should return the first two responses in the search results, with the first_name, last_name, and email of each response.</p>
+
+<pre><code class="language-curl">curl -X POST -H "domain: npxacme" 
+-H "Authorization: Basic Li9K1y8oaL6x7Li65f" 
+-H "Content-Type: application/json" -d '{
+    "fields": [
+        "first_name",
+        "last_name",
+        "email"
+        ]
+}' "https://surveyland.com/app/responses/_search&amp;limit=2"
+</code></pre>
+
+<h4 id="sample-response">Sample Response</h4>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1459"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://surveyland.com/customers/1459369528080"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"invitation_sent_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08/11/2016 01:00:08"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="err">john.cruz@acme.com</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1358"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"link"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://surveyland.com/customers/1358869524216"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Kim"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"invitation_sent_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"06/15/2016 08:30:68"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="err">Kim.Li@acme.com</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+            </div>
+          </div>
+        </div><!-- /CONTAINER-->
+    
+    
+        </div>
+
+
+  </body>
+</html>
+
